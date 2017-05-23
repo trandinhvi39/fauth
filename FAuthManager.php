@@ -24,7 +24,7 @@ class FAuthManager extends Manager implements Contracts\Factory
      *
      * @return \Trandinhvi39\Fauth\Provider\AbstractProvider
      */
-    protected function createFacebookDriver()
+    protected function createFramgiaDriver()
     {
         $config = $this->app['config']['services.framgia'];
 

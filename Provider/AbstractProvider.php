@@ -123,12 +123,29 @@ abstract class AbstractProvider implements Provider
     abstract protected function getUserByToken($token);
 
     /**
+     * Get user use password grant.
+     *
+     * @param  string $email
+     * @param  string $password
+     * @return array
+     */
+    abstract protected function getTokenByPasswordGrant($email, $password);
+
+    /**
+     * Refresh token.
+     *
+     * @param  string $refreshToken
+     * @return array
+     */
+    abstract protected function refreshToken($refreshToken);
+
+    /**
      * Map the raw user array to a Socialite User instance.
      *
-     * @param  array  $user
+     * @param  $user
      * @return \Trandinhvi39\Fauth\Provider\User
      */
-    abstract protected function mapUserToObject(array $user);
+    abstract protected function mapUserToObject($user);
 
     /**
      * Redirect the user of the application to the provider's authentication screen.
@@ -138,10 +155,6 @@ abstract class AbstractProvider implements Provider
     public function redirect()
     {
         $state = null;
-
-        /*if ($this->usesState()) {
-            $this->request->session()->set('state', $state = $this->getState());
-        }*/
 
         return new RedirectResponse($this->getAuthUrl($state));
     }
@@ -196,19 +209,17 @@ abstract class AbstractProvider implements Provider
      */
     public function user()
     {
-       /* if ($this->hasInvalidState()) {
-            throw new InvalidStateException;
-        }*/
-
         $response = $this->getAccessTokenResponse($this->getCode());
 
         $user = $this->mapUserToObject($this->getUserByToken(
             $token = Arr::get($response, 'access_token')
         ));
 
-        return $user->setToken($token)
+        if ($user) {
+            return $user->setToken($token)
                     ->setRefreshToken(Arr::get($response, 'refresh_token'))
                     ->setExpiresIn(Arr::get($response, 'expires_in'));
+        }
     }
 
     /**
