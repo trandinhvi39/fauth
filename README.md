@@ -12,7 +12,7 @@ Add the following to your composer.json
 ],
 
 "require": {
-    "trandinhvi39/fauth" : "dev-develop"
+    "trandinhvi39/fauth" : "dev-master"
 }
 ```
 
