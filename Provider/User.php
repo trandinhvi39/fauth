@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraveldaily\FAuth\Provider;
+namespace Trandinhvi39\Fauth\Provider;
 
-use Laraveldaily\FAuth\AbstractUser;
+use Trandinhvi39\Fauth\AbstractUser;
 
 class User extends AbstractUser
 {

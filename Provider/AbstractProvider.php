@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraveldaily\FAuth\Provider;
+namespace Trandinhvi39\Fauth\Provider;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Arr;
@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use GuzzleHttp\ClientInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Laraveldaily\FAuth\Contracts\Provider;
+use Trandinhvi39\Fauth\Contracts\Provider;
 
 abstract class AbstractProvider implements Provider
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Laraveldaily\FAuth\Facades;
+namespace Trandinhvi39\Fauth\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Laraveldaily\FAuth\FAuthManager
+ * @see \Trandinhvi39\Fauth\FAuthManager
  */
-class FAuth extends Facade
+class Fauth extends Facade
 {
     /**
      * Get the registered name of the component.
@@ -16,6 +16,6 @@ class FAuth extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'Laraveldaily\FAuth\Contracts\Factory';
+        return 'Trandinhvi39\Fauth\Contracts\Factory';
     }
 }

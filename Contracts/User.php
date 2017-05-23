@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraveldaily\FAuth\Contracts;
+namespace Trandinhvi39\Fauth\Contracts;
 
 interface User
 {

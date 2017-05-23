@@ -1,21 +1,6 @@
-/*{
-    "name": "laraveldaily/fauth",
-    "description": "Authentication User Framgia",
-    "type": "library",
-    "license": "Framgia",
-    "authors": [
-        {
-            "name": "trandinhvi39",
-            "email": "trandinhvi39@gmail.com"
-        }
-    ],
-    "minimum-stability": "dev",
-    "require": {}
-}*/
-
 {
-    "name": "laraveldaily/fauth",
-    "keywords": ["laravel", "framgia", "oauth", "authentication"],
+    "name": "trandinhvi39/fauth",
+    "keywords": ["laravel", "oauth", "authentication"],
     "description": "Authentication User Framgia",
     "type": "library",
     "license": "Framgia",
@@ -25,10 +10,16 @@
             "email": "trandinhvi39@gmail.com"
         }
     ],
-    "autoload": {
-        "psr-4": {
-            "Laraveldaily\\FAuth\\": "packages/laraveldaily/FAuth/src"
-        }
+    "require": {
+        "php": ">=5.4.0",
+        "guzzlehttp/guzzle": "~6.0",
+        "illuminate/contracts": "~5.4",
+        "illuminate/http": "~5.4",
+        "illuminate/support": "~5.4"
+    },
+    "require-dev": {
+        "mockery/mockery": "~0.9",
+        "phpunit/phpunit": "~4.0|~5.0"
     },
     "minimum-stability": "dev",
     "require": {}

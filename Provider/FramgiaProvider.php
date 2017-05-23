@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraveldaily\FAuth\Provider;
+namespace Trandinhvi39\Fauth\Provider;
 
 use Illuminate\Support\Arr;
 use GuzzleHttp\ClientInterface;

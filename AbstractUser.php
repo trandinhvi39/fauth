@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraveldaily\FAuth;
+namespace Trandinhvi39\Fauth;
 
 use ArrayAccess;
 

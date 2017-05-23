@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraveldaily\FAuth;
+namespace Trandinhvi39\Fauth;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -23,9 +23,7 @@ class FAuthServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        include __DIR__.'/routes.php';
-        $this->app->make('Laraveldaily\FAuth\FAuthController');
-        $this->app->singleton('Laraveldaily\FAuth\Contracts\Factory', function ($app) {
+        $this->app->singleton('Trandinhvi39\Fauth\Contracts\Factory', function ($app) {
             return new FAuthManager($app);
         });
     }
@@ -37,6 +35,6 @@ class FAuthServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Laraveldaily\FAuth\Contracts\Factory'];
+        return ['Trandinhvi39\Fauth\Contracts\Factory'];
     }
 }

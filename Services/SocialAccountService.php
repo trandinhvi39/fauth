@@ -1,8 +1,8 @@
 <?php
 
-namespace Laraveldaily\FAuth\Services;
+namespace Trandinhvi39\Fauth\Services;
 
-use Laraveldaily\FAuth\Contracts\Provider;
+use Trandinhvi39\Fauth\Contracts\Provider;
 
 class SocialAccountService
 {

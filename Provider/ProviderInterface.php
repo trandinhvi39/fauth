@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraveldaily\FAuth\Provider;
+namespace Trandinhvi39\Fauth\Provider;
 
 interface ProviderInterface
 {
@@ -14,7 +14,7 @@ interface ProviderInterface
     /**
      * Get the User instance for the authenticated user.
      *
-     * @return \Laraveldaily\FAuth\Provider\User
+     * @return \Trandinhvi39\Fauth\Provider\User
      */
     public function user();
 }

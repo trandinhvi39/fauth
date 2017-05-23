@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraveldaily\FAuth\Contracts;
+namespace Trandinhvi39\Fauth\Contracts;
 
 interface Provider
 {
@@ -14,7 +14,7 @@ interface Provider
     /**
      * Get the User instance for the authenticated user.
      *
-     * @return \Laraveldaily\FAuth\Contracts\User
+     * @return \Trandinhvi39\Fauth\Contracts\User
      */
     public function user();
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraveldaily\FAuth;
+namespace Trandinhvi39\Fauth;
 
 use InvalidArgumentException;
 use Illuminate\Support\Manager;
-use Laraveldaily\FAuth\Provider\FramgiaProvider;
+use Trandinhvi39\Fauth\Provider\FramgiaProvider;
 
 class FAuthManager extends Manager implements Contracts\Factory
 {
@@ -29,7 +29,7 @@ class FAuthManager extends Manager implements Contracts\Factory
         $config = $this->app['config']['services.framgia'];
 
         return $this->buildProvider(
-            'Laraveldaily\FAuth\Provider\FramgiaProvider', $config
+            'Trandinhvi39\Fauth\Provider\FramgiaProvider', $config
         );
     }
 
@@ -38,7 +38,7 @@ class FAuthManager extends Manager implements Contracts\Factory
      *
      * @param  string  $provider
      * @param  array  $config
-     * @return \Laraveldaily\FAuth\Provider\AbstractProvider
+     * @return \Trandinhvi39\Fauth\Provider\AbstractProvider
      */
     public function buildProvider($provider, $config)
     {
