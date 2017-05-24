@@ -12,14 +12,14 @@ interface User
     public function getId();
 
     /**
-     * Get the nickname / username for the user.
+     * Get the employee code for the user.
      *
      * @return string
      */
     public function getEmployeeCode();
 
     /**
-     * Get the full name of the user.
+     * Get the name of the user.
      *
      * @return string
      */

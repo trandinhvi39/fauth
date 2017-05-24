@@ -126,7 +126,7 @@ abstract class AbstractProvider implements Provider
      * Map the raw user array to a Socialite User instance.
      *
      * @param  array  $user
-     * @return \Laravel\Socialite\Two\User
+     * @return \Trandinhvi39\Fauth\Provider\User
      */
     abstract protected function mapUserToObject(array $user);
 
@@ -215,7 +215,7 @@ abstract class AbstractProvider implements Provider
      * Get a Social User instance from a known access token.
      *
      * @param  string  $token
-     * @return \Laravel\Socialite\Two\User
+     * @return \Trandinhvi39\Fauth\Provider\User
      */
     public function userFromToken($token)
     {

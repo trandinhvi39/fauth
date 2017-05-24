@@ -14,14 +14,14 @@ abstract class AbstractUser implements ArrayAccess, Contracts\User
     public $id;
 
     /**
-     * The user's nickname / username.
+     * The user's employee code.
      *
      * @var string
      */
     public $employeeCode;
 
     /**
-     * The user's full name.
+     * The user's name.
      *
      * @var string
      */
@@ -35,49 +35,49 @@ abstract class AbstractUser implements ArrayAccess, Contracts\User
     public $email;
 
     /**
-     * The user's raw attributes.
+     * The user's company.
      *
      * @var array
      */
     public $company;
 
     /**
-     * The user's raw attributes.
+     * The user's contract date.
      *
      * @var array
      */
     public $contractDate;
 
     /**
-     * The user's raw attributes.
+     * The user's staff type.
      *
      * @var array
      */
     public $staffType;
 
     /**
-     * The user's raw attributes.
+     * The user's workspace.
      *
      * @var array
      */
     public $workspace;
 
     /**
-     * The user's avatar image URL.
+     * The user's group.
      *
      * @var string
      */
     public $group;
 
     /**
-     * The user's avatar image URL.
+     * The user's gender.
      *
      * @var string
      */
     public $gender;
 
     /**
-     * The user's avatar image URL.
+     * The user's birthday.
      *
      * @var string
      */
@@ -94,7 +94,7 @@ abstract class AbstractUser implements ArrayAccess, Contracts\User
     }
 
     /**
-     * Get the nickname / username for the user.
+     * Get the employee code for the user.
      *
      * @return string
      */

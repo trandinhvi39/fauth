@@ -2,176 +2,122 @@
 
 namespace Trandinhvi39\Fauth\Provider;
 
+use Exception;
 use Illuminate\Support\Arr;
-use GuzzleHttp\ClientInterface;
 
-class FramgiaProvider extends AbstractProvider implements ProviderInterface
+class GithubProvider extends AbstractProvider implements ProviderInterface
 {
-    /**
-     * The base Facebook Graph URL.
-     *
-     * @var string
-     */
-    protected $graphUrl = 'https://graph.facebook.com';
-
-    /**
-     * The Graph API version for the request.
-     *
-     * @var string
-     */
-    protected $version = 'v2.8';
-
-    /**
-     * The user fields being requested.
-     *
-     * @var array
-     */
-    protected $fields = ['name', 'email', 'gender', 'verified', 'link'];
-
     /**
      * The scopes being requested.
      *
      * @var array
      */
-    protected $scopes = ['email'];
+    protected $scopes = ['user:email'];
 
     /**
-     * Display the dialog in a popup view.
+     * Get auth url.
      *
-     * @var bool
+     * @param  string $state
+     * @return string
      */
-    protected $popup = false;
+    public function getAuthUrl($state)
+    {
+        return $this->buildAuthUrlFromBase('http://auth.framgia.vn/oauth/authorize', $state);
+    }
 
     /**
-     * Re-request a declined permission.
+     * Get token url.
      *
-     * @var bool
+     * @return string
      */
-    protected $reRequest = false;
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    public function getTokenUrl()
     {
-        return $this->buildAuthUrlFromBase('https://www.facebook.com/'.$this->version.'/dialog/oauth', $state);
+        return 'http://auth.framgia.vn/oauth/access_token';
     }
 
     /**
-     * {@inheritdoc}
+     * Get user by token.
+     *
+     * @param  string $token
+     * @return Trandinhvi39\Fauth\Provider\User
      */
-    protected function getTokenUrl()
+    public function getUserByToken($token)
     {
-        return $this->graphUrl.'/'.$this->version.'/oauth/access_token';
-    }
+        $userUrl = 'http://auth.framgia.vn/user?access_token=' . $token;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getAccessTokenResponse($code)
-    {
-        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
+        $response = $this->getHttpClient()->get(
+            $userUrl, $this->getRequestOptions()
+        );
 
-        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            $postKey => $this->getTokenFields($code),
-        ]);
+        $user = json_decode($response->getBody(), true);
 
-        $data = [];
-
-        $data = json_decode($response->getBody(), true);
-
-        return Arr::add($data, 'expires_in', Arr::pull($data, 'expires'));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getUserByToken($token)
-    {
-        $meUrl = $this->graphUrl.'/'.$this->version.'/me?access_token='.$token.'&fields='.implode(',', $this->fields);
-
-        if (! empty($this->clientSecret)) {
-            $appSecretProof = hash_hmac('sha256', $token, $this->clientSecret);
-
-            $meUrl .= '&appsecret_proof='.$appSecretProof;
+        if (in_array('user:email', $this->scopes)) {
+            $user['email'] = $this->getEmailByToken($token);
         }
 
-        $response = $this->getHttpClient()->get($meUrl, [
+        return $user;
+    }
+
+    /**
+     * Get the email for the given access token.
+     *
+     * @param  string  $token
+     * @return string|null
+     */
+    public function getEmailByToken($token)
+    {
+        $emailsUrl = 'http://auth.framgia.vn/user/emails?access_token=' . $token;
+
+        try {
+            $response = $this->getHttpClient()->get(
+                $emailsUrl, $this->getRequestOptions()
+            );
+        } catch (Exception $e) {
+            return;
+        }
+
+        foreach (json_decode($response->getBody(), true) as $email) {
+            if ($email['primary'] && $email['verified']) {
+                return $email['email'];
+            }
+        }
+    }
+
+    /**
+     * Get user map with specific fields.
+     *
+     * @param  array $user
+     * @return Trandinhvi39\Fauth\Provider\User
+     */
+    public function mapUserToObject(array $user)
+    {
+        return (new User)->setRaw($user)->map([
+            'id' => $user['id'],
+            'employeeCode' => isset($user['employeeCode']) ? $user['employeeCode'] : null,
+            'name' => isset($user['name']) ? $user['name'] : null,
+            'email' => isset($user['email']) ? $user['email'] : null,
+            'company' => isset($user['company']) ? $user['company'] : null,
+            'contractDate' => isset($user['contractDate']) ? $user['contractDate'] : null,
+            'staffType' => isset($user['staffType']) ? $user['staffType'] : null,
+            'workspace' => isset($user['workspace']) ? $user['workspace'] : null,
+            'group' => isset($user['group']) ? $user['group'] : null,
+            'gender' => isset($user['gender']) ? $user['gender'] : null,
+            'birthday' => isset($user['birthday']) ? $user['birthday'] : null,
+        ]);
+    }
+
+    /**
+     * Get the default options for an HTTP request.
+     *
+     * @return array
+     */
+    public function getRequestOptions()
+    {
+        return [
             'headers' => [
                 'Accept' => 'application/json',
             ],
-        ]);
-
-        return json_decode($response->getBody(), true);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function mapUserToObject(array $user)
-    {
-        $avatarUrl = $this->graphUrl.'/'.$this->version.'/'.$user['id'].'/picture';
-
-        return (new User)->setRaw($user)->map([
-            'id' => $user['id'], 'nickname' => null, 'name' => isset($user['name']) ? $user['name'] : null,
-            'email' => isset($user['email']) ? $user['email'] : null, 'avatar' => $avatarUrl.'?type=normal',
-            'avatar_original' => $avatarUrl.'?width=1920',
-            'profileUrl' => isset($user['link']) ? $user['link'] : null,
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getCodeFields($state = null)
-    {
-        $fields = parent::getCodeFields($state);
-
-        if ($this->popup) {
-            $fields['display'] = 'popup';
-        }
-
-        if ($this->reRequest) {
-            $fields['auth_type'] = 'rerequest';
-        }
-
-        return $fields;
-    }
-
-    /**
-     * Set the user fields to request from Facebook.
-     *
-     * @param  array  $fields
-     * @return $this
-     */
-    public function fields(array $fields)
-    {
-        $this->fields = $fields;
-
-        return $this;
-    }
-
-    /**
-     * Set the dialog to be displayed as a popup.
-     *
-     * @return $this
-     */
-    public function asPopup()
-    {
-        $this->popup = true;
-
-        return $this;
-    }
-
-    /**
-     * Re-request permissions which were previously declined.
-     *
-     * @return $this
-     */
-    public function reRequest()
-    {
-        $this->reRequest = true;
-
-        return $this;
+        ];
     }
 }
+

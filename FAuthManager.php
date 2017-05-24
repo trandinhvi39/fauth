@@ -22,7 +22,7 @@ class FAuthManager extends Manager implements Contracts\Factory
     /**
      * Create an instance of the specified driver.
      *
-     * @return \Laravel\Socialite\Two\AbstractProvider
+     * @return \Trandinhvi39\Fauth\Provider\AbstractProvider
      */
     protected function createFacebookDriver()
     {
@@ -72,6 +72,6 @@ class FAuthManager extends Manager implements Contracts\Factory
      */
     public function getDefaultDriver()
     {
-        throw new InvalidArgumentException('No Socialite driver was specified.');
+        throw new InvalidArgumentException('No Fauth driver was specified.');
     }
 }
