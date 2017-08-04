@@ -32,6 +32,7 @@ You will also need to add credentials for the OAuth services your application ut
 'framgia' => [
     'client_id' => 'your-auth-framgia-app-id',
     'client_secret' => 'your-auth-framgia-app-secret',
+    'base_url' => 'http://domain-auth-server',
     'redirect' => 'http://your-callback-url',
 ],
 ```

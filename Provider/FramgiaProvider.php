@@ -21,7 +21,7 @@ class FramgiaProvider extends AbstractProvider implements ProviderInterface
      *
      * @var string
      */
-    protected $baseUrl = 'http://10.0.1.45:4000';
+    protected $baseUrl = $this->app['config']['services.framgia']['base_url'];
 
     /**
      * Get auth url.
